@@ -3,9 +3,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-# ==========================================
 # 1. PAGE CONFIGURATION
-# ==========================================
 st.set_page_config(
     page_title="IPL Cricket Analytics Dashboard",
     page_icon="🏏",
@@ -15,9 +13,8 @@ st.set_page_config(
 st.title("🏏 IPL Cricket Data Analytics Dashboard")
 st.caption("Explore IPL seasons, teams, players, wickets and match performance.")
 
-# ==========================================
 # 2. LOAD DATA
-# ==========================================
+
 @st.cache_data
 def load_data():
     matches = pd.read_csv("data/matches.csv")
@@ -34,9 +31,8 @@ except FileNotFoundError:
     )
     st.stop()
 
-# ==========================================
 # 3. SIDEBAR FILTERS
-# ==========================================
+
 st.sidebar.header("Dashboard Filters")
 
 seasons = sorted(
@@ -70,9 +66,8 @@ selected_team = st.sidebar.selectbox(
     team_options
 )
 
-# ==========================================
 # 4. FILTER MATCHES AND DELIVERIES
-# ==========================================
+
 if selected_team == "All Teams":
     filtered_matches = season_matches.copy()
 else:
@@ -91,9 +86,9 @@ completed_matches = filtered_matches[
     & (filtered_matches["result"] != "no result")
 ].copy()
 
-# ==========================================
+
 # 5. KEY PERFORMANCE INDICATORS
-# ==========================================
+
 total_matches = len(filtered_matches)
 total_deliveries = len(filtered_deliveries)
 
@@ -125,9 +120,9 @@ c4.metric("🎯 Deliveries", f"{total_deliveries:,}")
 
 st.divider()
 
-# ==========================================
+
 # 6. TEAM WINS CHART
-# ==========================================
+
 st.subheader("🏆 Team-wise Wins")
 
 team_wins = (
@@ -159,9 +154,9 @@ else:
 
 st.divider()
 
-# ==========================================
+
 # 7. PLAYER OF THE MATCH AWARDS
-# ==========================================
+
 st.subheader("🌟 Top Players by Player of the Match Awards")
 
 player_awards = (
@@ -190,9 +185,9 @@ else:
 
 st.divider()
 
-# ==========================================
+
 # 8. TOP 10 BATTERS BY RUNS
-# ==========================================
+
 st.subheader("🏏 Top 10 Batters by Runs")
 
 if selected_team == "All Teams":
@@ -229,9 +224,9 @@ else:
 
 st.divider()
 
-# ==========================================
+
 # 9. TOP 10 BOWLERS BY WICKETS
-# ==========================================
+
 st.subheader("🎯 Top 10 Bowlers by Wickets")
 
 if selected_team == "All Teams":
@@ -287,9 +282,9 @@ else:
 
 st.divider()
 
-# ==========================================
+
 # 10. TEAM PERFORMANCE ANALYSIS
-# ==========================================
+
 st.subheader("📊 Team Performance Analysis")
 
 if selected_team != "All Teams":
@@ -347,9 +342,9 @@ else:
 
 st.divider()
 
-# ==========================================
+
 # 11. TOSS ANALYSIS
-# ==========================================
+
 st.subheader("🪙 Toss Winner vs Match Winner")
 
 toss_matches = filtered_matches[
@@ -401,8 +396,8 @@ if not toss_matches.empty:
 else:
     st.info("No toss analysis data available for these filters.")
 
-# ==========================================
+
 # 12. FOOTER
-# ==========================================
+
 st.divider()
 st.caption("IPL Cricket Data Analytics | Built with Python, Pandas, Plotly and Streamlit")
